@@ -28,7 +28,7 @@ struct AlphaBetaState {
     _hand(hand),
     _eval(isMyTurn ? -1e6 : 1e6)
     {
-        static_assert(std::is_same<decltype(std::declval<Derived>().getNextFiled(std::declval<Field>(), std::declval<Answer_t>())), Field>::value, "getNextField function is not defined");
+        static_assert(std::is_same<decltype(std::declval<Derived>().getNextField(std::declval<Field>(), std::declval<Answer_t>())), Field>::value, "getNextField function is not defined");
         static_assert(std::is_same<decltype(std::declval<Derived>().getHands(std::declval<Field>())), std::vector<Answer_t>>::value, "getHands function is not defined");
         static_assert(std::is_same<decltype(std::declval<Derived>().calcEval(std::declval<Field>())), float>::value, "calcEval function is not defined");
     }
@@ -88,47 +88,79 @@ public:
     typedef typename FieldState::Hand_t Hand;
     typedef typename FieldState::Answer_t Answer;
     
+    static constexpr int SOAT_SHALLOW_DEPTH = 2;
+    
     AlphaBeta(HandSelector selector):
     _selector(selector){
         
     }
     
     Answer operator()(const Field& field, int maxDepth) {
-        std::priority_queue<libspiral::Pair<Answer, float>, std::vector<libspiral::Pair<Answer, float>>, libspiral::secondLessOrder> evalPriority;
+        std::vector<libspiral::Pair<Answer, float>> evalPriority;
         FieldState state(-1e6, 1e6, true, _selector(true));
         std::vector<Answer> nextHands;
         nextHands = state.getHands(field);
         
         for(auto && ans : nextHands) {
             float eval;
-            auto nextField = state.getNextFiled(field, ans);
+            auto nextField = state.getNextField(field, ans);
             
             eval = impl(nextField, -1e6, 1e6, 1, maxDepth);
-            evalPriority.push(libspiral::make_pair(ans, eval));
+            evalPriority.push_back(libspiral::make_pair(ans, eval));
         }
         
-        return evalPriority.top().first;
+        if(maxDepth % 2 == 0) {
+            std::sort(evalPriority.begin(), evalPriority.end(), libspiral::secondGreaterOrder{});
+        }
+        else {
+            std::sort(evalPriority.begin(), evalPriority.end(), libspiral::secondLessOrder{});
+        }
+        
+        return evalPriority.front().first;
     }
 private:
     float impl(Field field, float alpha, float beta, int depth, int maxDepth) {
         FieldState state(alpha, beta, depth % 2 == 0, _selector(depth % 2 == 0));
         std::vector<Answer> nextHands = state.getHands(field);
         
+        if(depth >= maxDepth) {
+            return state.calcEval(field);
+        }
+        
+        if(depth <= SOAT_SHALLOW_DEPTH) {
+            nextHands = handsShallowSearchSort(field, state, nextHands);
+        }
+        
         for(auto ans: nextHands) {
             float eval;
-            auto nextField = state.getNextFiled(field, ans);
-            if(depth >= maxDepth) {
-                eval = state.calcEval(nextField);
-            }
-            else {
-                eval = impl(nextField, state.getAlpha(), state.getBeta(), depth + 1, maxDepth);
-            }
+            auto nextField = state.getNextField(field, ans);
+
+            eval = impl(nextField, state.getAlpha(), state.getBeta(), depth + 1, maxDepth);
+
             if(state.isPruning(eval)) {
                 return eval;
             }
             state.setEval(eval);
         }
         return state.getEval();
+    }
+    
+    std::vector<Answer> handsShallowSearchSort(Field& field, FieldState& state, std::vector<Answer>& nextHands) {
+        std::vector<Answer> sortedHands;
+        sortedHands.reserve(nextHands.size());
+        std::vector<libspiral::Pair<int, float>> sortIndexes(nextHands.size());
+        for(int i = 0; i < nextHands.size(); i++) {
+            auto nextField = state.getNextField(field, nextHands[i]);
+            sortIndexes[i] = libspiral::make_pair(i, impl(nextField, state.getAlpha(), state.getBeta(), 0, 0));
+        }
+        
+        std::sort(sortIndexes.begin(), sortIndexes.end(), libspiral::secondLessOrder());
+        
+        for(auto index : sortIndexes){
+            sortedHands.push_back(nextHands[index.first]);
+        }
+        
+        return sortedHands;
     }
     
     HandSelector _selector;
