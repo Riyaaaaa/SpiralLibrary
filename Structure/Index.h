@@ -3,31 +3,44 @@
 
 #include "../Common/Macro.h"
 #include "../Common/Math.hpp"
+#include "MultiIndex.h"
 #include<unordered_map>
+#include<array>
 
 NS_LIBSPIRAL_BEGIN
 
-class Index {
+using Index = MultiIndex<2>;
+
+template<>
+class MultiIndex<2> {
 public:
     int x, y;
     
-    SPIRAL_CONSTEXPR Index()
+    SPIRAL_CONSTEXPR MultiIndex()
     : x(0.0f), y(0.0f)
     {}
     
-    SPIRAL_CONSTEXPR Index(int xx, int yy)
+    SPIRAL_CONSTEXPR MultiIndex(int xx, int yy)
     : x(xx), y(yy)
     {}
     
-    SPIRAL_CXX14_CONSTEXPR Index(std::initializer_list<int> list)
+    SPIRAL_CXX14_CONSTEXPR MultiIndex(std::initializer_list<int> list)
     :x(*list.begin()), y(*(list.begin() + 1))
     {}
     
-    SPIRAL_CONSTEXPR Index(const Index& copy)
+    SPIRAL_CONSTEXPR MultiIndex(const Index& copy)
     :x(copy.x), y(copy.y)
     {}
     
-    ~Index() = default;
+    SPIRAL_CXX14_CONSTEXPR int& operator[](int l) {
+        return l == 0 ? x : y;
+    }
+    
+    SPIRAL_CONSTEXPR int const& operator[](int l) const {
+        return l == 0 ? x : y;
+    }
+    
+    ~MultiIndex() = default;
     
     SPIRAL_CONSTEXPR float distance(const Index& v) const {
         return libspiral::sqrt(libspiral::pow(v.x - this->x, 2) + libspiral::pow(v.y - this->y, 2));

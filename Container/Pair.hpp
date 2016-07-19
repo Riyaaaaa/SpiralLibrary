@@ -22,33 +22,17 @@ template <typename T, typename U>
 struct Pair<T, U, true>{
     T first;
     U second;
-    
-    SPIRAL_CONSTEXPR Pair():first(T{}), second(U{}){
-    
-    }
-    
-    SPIRAL_CONSTEXPR Pair(T first, U second)
-    :first(first), second(second) {
-        
-    }
 };
 
 template <typename T, typename U>
 struct Pair<T, U, false>{
     T first;
     U second;
-    
-    Pair(){}
-    
-    Pair(T&& first, U&& second)
-    :first(first), second(second) {
-        
-    }
 };
 
 template <typename T, typename U>
 SPIRAL_CONSTEXPR Pair<typename std::remove_reference<T>::type, typename std::remove_reference<U>::type> make_pair(T&& first, U&& second) {
-    return Pair<typename std::remove_reference<T>::type, typename std::remove_reference<U>::type>(std::forward<T>(first), std::forward<U>(second));
+    return Pair<typename std::remove_reference<T>::type, typename std::remove_reference<U>::type>({std::forward<T>(first), std::forward<U>(second)});
 }
 
 struct secondGreaterOrder {

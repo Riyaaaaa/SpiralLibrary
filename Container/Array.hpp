@@ -10,10 +10,10 @@ struct Array {
     typedef T value_type;
     
     T v[LENGTH];
-    SPIRAL_CONSTEXPR T const& operator[](unsigned long l) const { //accessor
+    SPIRAL_CONSTEXPR T const& operator[](unsigned long l) const {
         return v[l];
     }
-    SPIRAL_CXX14_CONSTEXPR T& operator[](unsigned long l) { //accessor (allow writing)
+    SPIRAL_CXX14_CONSTEXPR T& operator[](unsigned long l) {
         return v[l];
     }
     static constexpr unsigned long size = LENGTH;
