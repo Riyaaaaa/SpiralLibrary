@@ -30,7 +30,7 @@ public:
         return &_value;
     }
     SPIRAL_CXX14_CONSTEXPR iterator end() {
-        return &(_value + 1);
+        return &(_value) + 1;
     }
     
     SPIRAL_CONSTEXPR const_iterator begin() const {
@@ -38,7 +38,7 @@ public:
     }
     
     SPIRAL_CONSTEXPR const_iterator end() const {
-        return &(_value + 1);
+        return &(_value) + 1;
     }
     
     value_type& operator=(const value_type& rhs){
@@ -79,7 +79,7 @@ public:
     }
     
     SPIRAL_CXX14_CONSTEXPR iterator end() {
-        return _array[First].begin();
+        return _array[First - 1].end();
     }
     
     SPIRAL_CONSTEXPR const_iterator begin() const {
@@ -87,7 +87,7 @@ public:
     }
     
     SPIRAL_CONSTEXPR const_iterator end() const {
-        return _array[First].begin();
+        return _array[First - 1].end();
     }
     
     child& operator[](const size_t& index){
