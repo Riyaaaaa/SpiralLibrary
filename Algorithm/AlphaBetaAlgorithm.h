@@ -36,8 +36,9 @@ struct AlphaBetaNodeState {
     virtual std::vector<Index> getEnableHands(const Field& field) = 0;
     virtual bool isFinished(const Field& field, const std::vector<Index>& enableHands) = 0;
     virtual Field getNextField(const Field& field, Index hand) = 0;
-    virtual float eval(const Field& field) = 0;
-    virtual float endEval(const Field& field) = 0;
+    virtual float eval(const Field& field, int turn) = 0;
+    virtual float endEval(const Field& field, int turn) = 0;
+    virtual int calcTurn(const Field& field) = 0;
     
     bool isPruning(float eval) {
         if(_turn) {
@@ -82,23 +83,23 @@ struct AlphaBetaNodeState {
     
 };
 
-template<class NodeState, class ...NodeArgs>
+template<class NodeState>
 struct AlphaBetaAlgorithm {
-    
     typedef typename NodeState::Field_t Field;
     typedef typename NodeState::Index_t Index;
     
 public:
-    
-    Index operator()(const Field& field, int maxDepth, NodeArgs... args) {
-        auto node = NodeState(true, -FLT_MAX, FLT_MAX, args...);
+    template<class... NodeArgs>
+    Index operator()(const Field& field, int maxDepth, NodeArgs&&... args) {
+        auto node = NodeState(true, -FLT_MAX, FLT_MAX, std::forward<NodeArgs>(args)...);
         auto enableHands = node.getEnableHands(field);
         
+        _turn = node.calcTurn(field);
         std::vector<libspiral::Pair<Index, float>> evalPriority;
         
         for(auto enableHand : enableHands) {
             auto nextField = node.getNextField(field, enableHand);
-            float eval = search(nextField, false, -FLT_MAX, FLT_MAX, 1, maxDepth, args...);
+            float eval = search(nextField, false, -FLT_MAX, FLT_MAX, 1, maxDepth, std::forward<NodeArgs>(args)...);
             evalPriority.push_back(libspiral::make_pair(enableHand, maxDepth % 2 == 0 ? eval : -eval));
         }
         std::sort(evalPriority.begin(), evalPriority.end(), libspiral::secondGreaterOrder{});
@@ -107,31 +108,33 @@ public:
     }
     
 private:
-    
-    float search(Field field, bool turn, float alpha, float beta, int depth, int maxDepth,  NodeArgs... args) {
+    template<class... NodeArgs>
+    float search(Field field, bool turn, float alpha, float beta, int depth, int maxDepth,  NodeArgs&&... args) {
 
-        auto node = NodeState(turn, alpha, beta, args...);
+        auto node = NodeState(turn, alpha, beta, std::forward<NodeArgs>(args)...);
         auto enableHands = node.getEnableHands(field);
         
         if (node.isFinished(field, enableHands)) {
-            return node.endEval(field);
+            return node.endEval(field, _turn + depth);
         }
         if (depth >= maxDepth) {
-            return node.eval(field);
+            return node.eval(field, _turn + depth);
         }
         if (enableHands.empty()) { //パスの場合
-            return search(field, !turn, alpha, beta, depth + 1, maxDepth, args...);
+            return search(field, !turn, alpha, beta, depth + 1, maxDepth, std::forward<NodeArgs>(args)...);
         }
         for(auto enableHand : enableHands) {
             auto nextField = node.getNextField(field, enableHand);
-            float eval = search(nextField, !turn, node.getAlpha(), node.getBeta(), depth + 1, maxDepth, args...);
+            float eval = search(nextField, !turn, node.getAlpha(), node.getBeta(), depth + 1, maxDepth, std::forward<NodeArgs>(args)...);
             if (node.isPruning(eval)) {
                 return eval;
             }
             node.setEval(eval);
         }
         return node.getEval();
-    }    
+    }
+    
+    int _turn;
 };
 
 #endif /* AlphaBetaAlgorithm_h */

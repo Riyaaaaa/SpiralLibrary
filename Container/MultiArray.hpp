@@ -10,7 +10,7 @@
 #define MultiArray_h
 
 #include <utility>
-#include "../Structure/MultiIndex.h"
+#include "../Structure/MultiIndex.hpp"
 #include "../Common/Stream.hpp"
 
 NS_LIBSPIRAL_BEGIN

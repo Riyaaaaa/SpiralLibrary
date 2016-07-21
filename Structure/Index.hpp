@@ -3,7 +3,7 @@
 
 #include "../Common/Macro.h"
 #include "../Common/Math.hpp"
-#include "MultiIndex.h"
+#include "MultiIndex.hpp"
 #include<unordered_map>
 #include<array>
 

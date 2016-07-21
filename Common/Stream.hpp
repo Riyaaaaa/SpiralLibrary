@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "Macro.h"
-#include "../Structure/MultiIndex.h"
+#include "../Structure/MultiIndex.hpp"
 
 NS_LIBSPIRAL_BEGIN
 

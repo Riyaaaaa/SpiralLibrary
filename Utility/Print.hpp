@@ -14,7 +14,7 @@
 
 #include "../Container/Array.hpp"
 #include "../Container/Pair.hpp"
-#include "../Structure/Index.h"
+#include "../Structure/Index.hpp"
 
 template<class T, class U>
 std::ostream& operator<<(std::ostream& os, libspiral::Pair<T, U> pair) {
