@@ -10,27 +10,30 @@ struct Array {
     typedef T value_type;
     
     T v[LENGTH];
+    
     SPIRAL_CONSTEXPR T const& operator[](unsigned long l) const {
         return v[l];
     }
+    
     SPIRAL_CXX14_CONSTEXPR T& operator[](unsigned long l) {
         return v[l];
     }
-    static constexpr unsigned long size = LENGTH;
     
-    const value_type* begin() const {
+    SPIRAL_STATIC_CONSTEXPR unsigned long size = LENGTH;
+    
+    SPIRAL_CONSTEXPR  const value_type* begin() const {
         return v;
     }
     
-    const value_type* end() const {
+    SPIRAL_CONSTEXPR  const value_type* end() const {
         return v + LENGTH;
     }
     
-    value_type* begin() {
+    SPIRAL_CXX14_CONSTEXPR value_type* begin() {
         return v;
     }
     
-    value_type* end() {
+    SPIRAL_CXX14_CONSTEXPR value_type* end() {
         return v + LENGTH;
     }
 };

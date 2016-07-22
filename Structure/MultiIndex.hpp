@@ -16,19 +16,33 @@ NS_LIBSPIRAL_BEGIN
 
 template<size_t _Rank>
 struct MultiIndex {
-    static constexpr size_t Rank = _Rank;
+    SPIRAL_STATIC_CONSTEXPR size_t Rank = _Rank;
     
-    MultiIndex(){}
+    SPIRAL_CONSTEXPR MultiIndex(){}
     
     template<class... Args>
-    MultiIndex(Args... _indexes) :
+    SPIRAL_CONSTEXPR MultiIndex(Args... _indexes) :
     indexes({_indexes...})
     {
         
     }
     
-    long operator[](size_t index) {
+    SPIRAL_CXX14_CONSTEXPR long& operator[](size_t index) {
         return indexes[index];
+    }
+    
+    SPIRAL_CONSTEXPR const long& operator[](size_t index) const {
+        return indexes[index];
+    }
+    
+    template<size_t Rank>
+    bool operator==(const MultiIndex<Rank>& rhs) {
+        for(int i = 0; i < Rank; i++) {
+            if((*this)[i] != rhs[i]) {
+                return false;
+            }
+        }
+        return true;
     }
     
     Array<long, Rank> indexes;
@@ -58,7 +72,7 @@ public:
         
         bool operator != ( const iterator& that )
         {
-            return this->_now != that._now;
+            return !(this->_now == that._now);
         }
         
         iterator&

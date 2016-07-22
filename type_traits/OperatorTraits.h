@@ -10,18 +10,25 @@
 #define OperatorTraits_h
 
 #include<type_traits>
+#include "../type_traits/OperatorTraits.h"
 #include "../Common/Macro.h"
 #include "Identity.hpp"
 #include "Enabler.hpp"
 
-NS_SPIRAL_BEGIN
+NS_LIBSPIRAL_BEGIN
 
-template<class T, class U = Identity_t<decltype(operator&(std::declval<T>()))> >
-struct hasAddressOp : std::true_type {};
+template<class T>
+struct hasAddressOpTest {
+    template<typename U = T, typename = Identity_t<decltype(operator&(std::declval<U>()))>>
+    static std::true_type test(int);
+    static std::false_type test(...);
+};
 
-template<class T, class U = T >
-struct hasAddressOp : std::false_type {};
+template<class T>
+struct hasAddressOp : public Identity_t<decltype(hasAddressOpTest<T>::test(0))>
+{};
+                                      
 
-NS_SPIRAL_END
+NS_LIBSPIRAL_END
 
 #endif /* OperatorTraits_h */

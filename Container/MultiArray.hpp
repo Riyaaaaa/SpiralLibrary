@@ -12,6 +12,7 @@
 #include <utility>
 #include "../Structure/MultiIndex.hpp"
 #include "../Common/Stream.hpp"
+#include "../Memory/AddressOf.hpp"
 
 NS_LIBSPIRAL_BEGIN
 
@@ -21,14 +22,16 @@ public:
     typedef T  value_type;
     typedef value_type* iterator;
     typedef const value_type* const_iterator;
-    typedef value_type  child;
-    const std::size_t RANK = 0;
+    SPIRAL_STATIC_CONSTEXPR size_t RANK = 0;
     value_type _value;
+    
+    operator T() const { return _value; }
 public:
     
     SPIRAL_CXX14_CONSTEXPR iterator begin() {
         return &_value;
     }
+    
     SPIRAL_CXX14_CONSTEXPR iterator end() {
         return &(_value) + 1;
     }
@@ -41,21 +44,26 @@ public:
         return &(_value) + 1;
     }
     
-    value_type& operator=(const value_type& rhs){
+    SPIRAL_CXX14_CONSTEXPR value_type& operator=(const value_type& rhs) {
         _value = rhs;
         return _value;
     }
-    operator value_type&(){
+    
+    const value_type* operator &() const {
+        return addressOf(_value);
+    }
+    
+    value_type* operator &() {
+        return addressOf(_value);
+    }
+    
+    template<size_t ORIGIN_RANK>
+    SPIRAL_CXX14_CONSTEXPR value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) {
         return _value;
     }
     
     template<size_t ORIGIN_RANK>
-    value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) {
-        return _value;
-    }
-    
-    template<size_t ORIGIN_RANK>
-    const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const {
+    SPIRAL_CONSTEXPR const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const {
         return _value;
     }
 };
@@ -69,8 +77,8 @@ public:
     typedef MultiArray<value_type, Dims...> child;
     
 public:
-    static constexpr size_t Rank = sizeof...(Dims) + 1;
-    child _array[First];
+    SPIRAL_STATIC_CONSTEXPR size_t Rank = sizeof...(Dims) + 1;
+    libspiral::Array<child, First> _array;
     
 public:
     
@@ -90,21 +98,21 @@ public:
         return _array[First - 1].end();
     }
     
-    child& operator[](const size_t& index){
+    SPIRAL_CXX14_CONSTEXPR child& operator[](const size_t& index){
         return _array[index];
     }
     
-    const child& operator[](const size_t& index) const {
+    SPIRAL_CONSTEXPR const child& operator[](const size_t& index) const {
         return _array[index];
     }
     
     template<size_t ORIGIN_RANK>
-    value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) {
+    SPIRAL_CXX14_CONSTEXPR value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) {
         return _array[get<Rank - 1>(indexes)][indexes];
     }
     
     template<size_t ORIGIN_RANK>
-    const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const {
+    SPIRAL_CONSTEXPR const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const {
         return _array[get<Rank - 1>(indexes)][indexes];
     }
     

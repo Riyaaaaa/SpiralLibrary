@@ -3,19 +3,21 @@
 #define AddressOf_h
 
 #include<memory>
+#include "../type_traits/OperatorTraits.h"
 #include "../Common/Macro.h"
 
-NS_SPIRAL_BEGIN
+NS_LIBSPIRAL_BEGIN
 
 namespace detail {
 
 template<typename T>
-typename std::enable_if< libspiral::hasAddressOp<T>::value, T* >::type
+typename std::enable_if< hasAddressOp<T>::value, T* >::type
 _addressof_impl(T& t) noexcept {
 return std::addressof(t);
 }
 
-template<typename T> typename std::enable_if< !libspiral::hasAddressOp<T>::value, T*>::type
+template<typename T>
+typename std::enable_if< !hasAddressOp<T>::value, T*>::type
 _addressof_impl(T& t) noexcept {
 return &t;
 }
@@ -23,10 +25,10 @@ return &t;
 }
 
 template<typename T>
-SPIRAL_CONSTEXPR addressOf(T& t) noexcept {
+SPIRAL_CONSTEXPR T* addressOf(T& t) noexcept {
     return detail::_addressof_impl(t);
 }
 
-NS_SPIRAL_END
+NS_LIBSPIRAL_END
 
 #endif /* AddressOf_h */

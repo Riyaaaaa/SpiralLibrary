@@ -9,12 +9,13 @@
 #ifndef Identity_h
 #define Identity_h
 
+#include <type_traits>
 #include "../Common/Macro.h"
 
-NS_SPIRAL_BEGIN
+NS_LIBSPIRAL_BEGIN
 
 template<typename T>
-struct Identity {
+struct Identity : std::true_type {
 public:
     typedef T type;
 };
@@ -22,6 +23,6 @@ public:
 template<typename T>
 using Identity_t = typename Identity<T>::type;
 
-NS_SPIRAL_END
+NS_LIBSPIRAL_END
 
 #endif /* Identity_h */
