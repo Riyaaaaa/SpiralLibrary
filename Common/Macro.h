@@ -14,7 +14,7 @@
 
 #define NS_LIBSPIRAL_BEGIN namespace libspiral {
 #define NS_LIBSPIRAL_END }
-#define USING_NS_LIBSPIRAL using namesapce libspiral
+#define USING_NS_LIBSPIRAL using namespace libspiral
 
 #if __cplusplus >= 201402L
 #define SPIRAL_CXX_14

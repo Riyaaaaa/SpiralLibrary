@@ -21,8 +21,7 @@ enum class StoneType {
 };
 
 namespace testspiral {
-    using namespace libspiral;
-    
+    USING_NS_LIBSPIRAL;
 static void multiArrayAndIndexTest() {
     MultiArray<int, 2> arr;
     MultiArray<int, 7, 7> arr1; //default constructor
