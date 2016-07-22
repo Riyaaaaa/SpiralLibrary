@@ -22,8 +22,6 @@ std::ostream& operator<<(std::ostream& os, libspiral::Pair<T, U> pair) {
     return os;
 }
 
-std::ostream& operator<<(std::ostream& os, libspiral::Index index);
-
 template<class T, unsigned long Size>
 std::ostream& operator<<(std::ostream& os, libspiral::Array<T, Size> arr) {
     for(int i = 0; i < Size; i++) {

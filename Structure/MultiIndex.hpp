@@ -9,8 +9,8 @@
 #ifndef MultiIndex_h
 #define MultiIndex_h
 
-#include "Alias.h"
-#include "Array.hpp"
+#include "../Common/Alias.h"
+#include "../Container/Array.hpp"
 
 NS_LIBSPIRAL_BEGIN
 
