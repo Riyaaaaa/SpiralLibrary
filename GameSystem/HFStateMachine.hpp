@@ -14,6 +14,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 template <class ContextType, class Event>
 class HFStateMachine : public std::enable_shared_from_this<HFStateMachine<ContextType, Event>>

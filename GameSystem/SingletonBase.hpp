@@ -17,19 +17,15 @@ public:
     Destroyer() : _deleteTarget(nullptr) {}
     
     void setObject(Extend* ptr) {
-        std::cout << "set" << std::endl;
         _deleteTarget = ptr;
     }
     
     void removeObject() {
-        std::cout << "remove" << std::endl;
         _deleteTarget = nullptr;
     }
     
     ~Destroyer() {
-        std::cout << "delete" << std::endl;
         if(_deleteTarget) {
-            std::cout << "deleted" << std::endl;
             delete _deleteTarget;
         }
     }
@@ -59,7 +55,6 @@ public:
     }
     
 protected:
-    
     SingletonBase() = default;
     SingletonBase(const SingletonBase& rhs)=default;
     virtual ~SingletonBase() {}

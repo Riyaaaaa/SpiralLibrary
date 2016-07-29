@@ -10,7 +10,7 @@
 #define GameManagerBase_hpp
 
 #include "cocos2d.h"
-#include "SingletonBase.hpp"
+#include "../GameSystem/SingletonBase.hpp"
 
 template<class Manager, class Scene_t>
 class GameManagerBase : public SingletonBase<Manager>{
