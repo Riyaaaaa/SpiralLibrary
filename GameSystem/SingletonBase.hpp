@@ -9,6 +9,34 @@
 #ifndef SingletonBase_hpp
 #define SingletonBase_hpp
 
+#include<iostream>
+
+template<class Extend>
+class Destroyer {
+public:
+    Destroyer() : _deleteTarget(nullptr) {}
+    
+    void setObject(Extend* ptr) {
+        std::cout << "set" << std::endl;
+        _deleteTarget = ptr;
+    }
+    
+    void removeObject() {
+        std::cout << "remove" << std::endl;
+        _deleteTarget = nullptr;
+    }
+    
+    ~Destroyer() {
+        std::cout << "delete" << std::endl;
+        if(_deleteTarget) {
+            std::cout << "deleted" << std::endl;
+            delete _deleteTarget;
+        }
+    }
+private:
+    Extend* _deleteTarget;
+};
+
 template<class Extend>
 class SingletonBase{
 public:
@@ -17,6 +45,7 @@ public:
     static Extend* getInstance() {
         if(!_singletonInstancePointer) {
             _singletonInstancePointer = new Extend;
+            _destroyer.setObject(_singletonInstancePointer);
         }
         return _singletonInstancePointer;
     };
@@ -25,22 +54,25 @@ public:
         if(_singletonInstancePointer) {
             delete _singletonInstancePointer;
             _singletonInstancePointer = nullptr;
+            _destroyer.removeObject();
         }
     }
     
 protected:
     
-    SingletonBase()=default;
+    SingletonBase() = default;
     SingletonBase(const SingletonBase& rhs)=default;
-
-    virtual ~SingletonBase(){}
-    
+    virtual ~SingletonBase() {}
 
 private:
+    static Destroyer<Extend> _destroyer;
 };
 
 template<class Extend>
 Extend* SingletonBase<Extend>::_singletonInstancePointer = nullptr;
+
+template<class Extend>
+Destroyer<Extend> SingletonBase<Extend>::_destroyer;
 
 
 
