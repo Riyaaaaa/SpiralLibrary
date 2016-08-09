@@ -9,6 +9,12 @@
 #ifndef Enabler_h
 #define Enabler_h
 
+#include "Macro.h"
+
+NS_LIBSPIRAL_BEGIN
+
 extern void * enabler ;
+
+NS_LIBSPIRAL_END
 
 #endif /* Enabler_h */
