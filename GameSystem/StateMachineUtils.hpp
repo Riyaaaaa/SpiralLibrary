@@ -10,6 +10,8 @@
 #define StateMachineUtils_h
 
 #include "StateInterface.hpp"
+#include "../Common/Macro.h"
+NS_LIBSPIRAL_BEGIN
 
 template<class context_t, class event_t>
 struct SMUtils {
@@ -33,5 +35,7 @@ public:
         }
     };
 };
+
+NS_LIBSPIRAL_END
 
 #endif /* StateMachineUtils_h */

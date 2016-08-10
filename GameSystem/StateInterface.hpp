@@ -14,6 +14,9 @@
 #include <memory>
 #include <type_traits>
 
+#include "../Common/Macro.h"
+NS_LIBSPIRAL_BEGIN
+
 template <class ContextType>
 class actionInterface;
 
@@ -146,6 +149,8 @@ protected:
     action_map _action;
     
 };
+
+NS_LIBSPIRAL_END
 
 
 #endif /* StateMachine_hpp */

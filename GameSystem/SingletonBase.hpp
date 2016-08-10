@@ -9,7 +9,8 @@
 #ifndef SingletonBase_hpp
 #define SingletonBase_hpp
 
-#include<iostream>
+#include "../Common/Macro.h"
+NS_LIBSPIRAL_BEGIN
 
 template<class Extend>
 class Destroyer {
@@ -70,6 +71,6 @@ template<class Extend>
 Destroyer<Extend> SingletonBase<Extend>::_destroyer;
 
 
-
+NS_LIBSPIRAL_END
 
 #endif /* SingletonBase_hpp */

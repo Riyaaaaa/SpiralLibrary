@@ -11,6 +11,8 @@
 
 #include "cocos2d.h"
 #include "../GameSystem/SingletonBase.hpp"
+#include "../Common/Macro.h"
+NS_LIBSPIRAL_BEGIN
 
 template<class Manager, class Scene_t>
 class GameManagerBase : public SingletonBase<Manager>{
@@ -49,5 +51,7 @@ void GameManagerBase<Manager, Scene_t>::onExitScene() {
     scheduler->unscheduleAllForTarget(this);
     Manager::destroyInstance();
 }
+
+NS_LIBSPIRAL_END
 
 #endif /* GameManagerBase_hpp */

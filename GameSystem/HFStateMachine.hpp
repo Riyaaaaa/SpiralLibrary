@@ -16,6 +16,9 @@
 #include <map>
 #include <algorithm>
 
+#include "../Common/Macro.h"
+NS_LIBSPIRAL_BEGIN
+
 template <class ContextType, class Event>
 class HFStateMachine : public std::enable_shared_from_this<HFStateMachine<ContextType, Event>>
 {
@@ -144,6 +147,6 @@ protected:
     }
 };
 
-
+NS_LIBSPIRAL_END
 
 #endif /* HFStateMachine_hpp */

@@ -10,6 +10,8 @@
 #define CocosUpdater_h
 
 #include "cocos2d.h"
+#include "../Common/Macro.h"
+NS_LIBSPIRAL_BEGIN
 
 class CCUpdater {
 public:
@@ -35,5 +37,6 @@ public:
     }
 };
 
+NS_LIBSPIRAL_END
 
 #endif /* CocosUpdater_h */
