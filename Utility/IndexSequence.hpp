@@ -1,10 +1,9 @@
-//
-//  IndexSequence.hpp
-//  HyperReversi
-//
-//  Created by Atsumu Ono on 2016/06/10.
-//
-//
+/*=============================================================================
+ Copyright (c) 2011-2016 Riyaaaaa
+ https://github.com/Riyaaaaa/SpiralLibrary
+ Distributed under the Boost Software License, Version 1.0. (See accompanying
+ file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ =============================================================================*/
 
 #ifndef IndexSequence_h
 #define IndexSequence_h
@@ -28,8 +27,6 @@ struct index_sequence
 };
 
 
-// this structure doubles index_sequence elements.
-// s- is number of template arguments in IS.
 template< std::size_t s, typename IS >
 struct doubled_index_sequence;
 
@@ -39,8 +36,6 @@ struct doubled_index_sequence< s, index_sequence<i... > >
     typedef index_sequence<i..., (s + i)... > type;
 };
 
-// this structure incremented by one index_sequence, iff NEED-is true,
-// otherwise returns IS
 template< bool NEED, typename IS >
 struct inc_index_sequence;
 
@@ -53,7 +48,6 @@ struct inc_index_sequence< true, index_sequence<i...> >
     typedef index_sequence<i..., sizeof...(i)> type;
 };
 
-// helper structure for make_index_sequence.
 template< std::size_t N >
 struct make_index_sequence_impl :
 inc_index_sequence< (N % 2 != 0),

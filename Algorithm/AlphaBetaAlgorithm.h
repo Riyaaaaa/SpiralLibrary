@@ -1,10 +1,9 @@
-//
-//  AlphaBetaAlgorithm.h
-//  HyperReversi
-//
-//  Created by Toshiki Suizu on 2016/06/09.
-//
-//
+/*=============================================================================
+ Copyright (c) 2011-2016 Riyaaaaa
+ https://github.com/Riyaaaaa/SpiralLibrary
+ Distributed under the Boost Software License, Version 1.0. (See accompanying
+ file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ =============================================================================*/
 
 #ifndef AlphaBetaAlgorithm_h
 #define AlphaBetaAlgorithm_h
@@ -12,6 +11,9 @@
 #include <vector>
 #include <algorithm>
 #include "../Container/Pair.hpp"
+#include "../Common/Macro.h"
+
+NS_LIBSPIRAL_BEGIN
 
 template<class Field, class Index>
 struct AlphaBetaNodeState {
@@ -84,7 +86,7 @@ struct AlphaBetaNodeState {
 };
 
 template<class NodeState>
-struct AlphaBetaAlgorithm {
+struct AlphaBeta {
     typedef typename NodeState::Field_t Field;
     typedef typename NodeState::Index_t Index;
     
@@ -120,7 +122,7 @@ private:
         if (depth >= maxDepth) {
             return node.eval(field, _turn + depth);
         }
-        if (enableHands.empty()) { //パスの場合
+        if (enableHands.empty()) {
             return search(field, !turn, alpha, beta, depth + 1, maxDepth, std::forward<NodeArgs>(args)...);
         }
         for(auto enableHand : enableHands) {
@@ -136,5 +138,7 @@ private:
     
     int _turn;
 };
+
+NS_LIBSPIRAL_END
 
 #endif /* AlphaBetaAlgorithm_h */

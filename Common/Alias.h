@@ -1,10 +1,9 @@
-//
-//  Alias.h
-//  HyperReversi
-//
-//  Created by Atsumu Ono on 2016/07/15.
-//
-//
+/*=============================================================================
+ Copyright (c) 2011-2016 Riyaaaaa
+ https://github.com/Riyaaaaa/SpiralLibrary
+ Distributed under the Boost Software License, Version 1.0. (See accompanying
+ file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ =============================================================================*/
 
 #ifndef Alias_h
 #define Alias_h
