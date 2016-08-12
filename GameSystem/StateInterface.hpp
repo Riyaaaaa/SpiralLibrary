@@ -1,5 +1,5 @@
 /*=============================================================================
- Copyright (c) 2011-2016 Riyaaaaa
+ Copyright (c) 2016 Riyaaaaa
  https://github.com/Riyaaaaa/SpiralLibrary
  Distributed under the Boost Software License, Version 1.0. (See accompanying
  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -95,7 +95,7 @@ public:
         setContext(context);
     }
     
-    virtual void exit(){}
+    virtual void exit(const std::shared_ptr<ContextType>& context){}
     
     virtual std::shared_ptr<HFStateBase> update(float deltaTime) {
         if(_next) {
