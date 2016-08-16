@@ -8,7 +8,7 @@
 #ifndef Enabler_h
 #define Enabler_h
 
-#include "Macro.h"
+#include "../Common/Macro.h"
 
 NS_LIBSPIRAL_BEGIN
 

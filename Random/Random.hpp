@@ -10,7 +10,7 @@
 
 #include <random>
 #include <type_traits>
-#include "Macro.h"
+#include "../Common/Macro.h"
 #include "../Structure/Range.hpp"
 #include "../type_traits/Enabler.hpp"
 
