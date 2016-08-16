@@ -120,6 +120,10 @@ public:
         _transition.insert(std::make_pair(e, std::shared_ptr<factory_t>(factory)));
     }
     
+    void addAction(const Event& e, action_t* act) {
+        _action.insert( std::make_pair(e, std::shared_ptr<action_t>(act)) );
+    }
+    
     bool processEvent(const Event& e) {
         auto itAction = _action.find(e);
         auto itTrans = _transition.find(e);
@@ -136,11 +140,7 @@ public:
         }
         return true;
     }
-    
-    void addAction(const Event& e, action_t* act) {
-        _action.insert( std::make_pair(e, std::shared_ptr<action_t>(act)) );
-    }
-    
+
 protected:
     std::shared_ptr<state_t> _next;
     std::weak_ptr<context_t> _context;

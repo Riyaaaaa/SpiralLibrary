@@ -20,13 +20,13 @@ template<class ENGINE = std::default_random_engine>
 class Random {
 public:
     template<typename T, typename std::enable_if<std::is_integral<T>{}>::type*& = enabler>
-    static T getRandom(Range<T> range) {
+    static T getValue(Range<T> range) {
         std::uniform_int_distribution<T> dist(range.min, range.max);
         return dist(engine);
     }
     
     template<typename T, typename std::enable_if<std::is_floating_point<T>{}>::type*& = enabler>
-    static T getRandom(Range<T> range) {
+    static T getValue(Range<T> range) {
         std::uniform_real_distribution<T> dist(range.min, range.max);
         return dist(engine);
     }
