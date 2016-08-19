@@ -24,7 +24,7 @@ namespace detail
     std::unique_ptr<char[]> formatImpl(char const* formatCStr, Args&&... args)
     {
         std::unique_ptr<char[]> buf(new char[MAX_BUFFER]);
-        size_t writtenLen = std::snprintf(buf.get(), MAX_BUFFER, formatCStr, args...);
+        size_t writtenLen = snprintf(buf.get(), MAX_BUFFER, formatCStr, args...);
         
         if (writtenLen > 0 && writtenLen < MAX_BUFFER)
         {
