@@ -29,7 +29,7 @@ struct Pair<T, U, true>{
     T first;
     U second;
     
-    SPIRAL_CXX14_CONSTEXPR Pair& operator=(Pair&& other) noexcept (std::is_nothrow_move_assignable<T>::value &&
+    SPIRAL_CXX14_CONSTEXPR Pair& operator=(Pair&& other) SPIRAL_NOEXCEPT(std::is_nothrow_move_assignable<T>::value &&
                                             std::is_nothrow_move_assignable<U>::value) {
         if(this != &other) {
             first = libspiral::forward<T>(other.first);
@@ -44,14 +44,14 @@ struct Pair<T, U, true>{
     
     template<class T2, class U2,
     class = typename std::enable_if<std::is_convertible<T2, T>::value && std::is_convertible<U2, U>::value>::type >
-    SPIRAL_CONSTEXPR Pair(T2&& t, U2&& u) noexcept
+    SPIRAL_CONSTEXPR Pair(T2&& t, U2&& u) SPIRAL_NOEXCEPT
     : first(libspiral::forward<T2>(t)),
     second(libspiral::forward<U2>(u))
     {}
     
     template<class T2, class U2,
     class = typename std::enable_if<std::is_convertible<T2, T>::value && std::is_convertible<U2, U>::value>::type >
-    SPIRAL_CONSTEXPR Pair(Pair<T2, U2>&& p) noexcept
+    SPIRAL_CONSTEXPR Pair(Pair<T2, U2>&& p) SPIRAL_NOEXCEPT
     : first(libspiral::forward<T2>(p.first)),
     second(libspiral::forward<U2>(p.second))
     {}
@@ -59,19 +59,22 @@ struct Pair<T, U, true>{
 };
 
 template <typename T, typename U>
-SPIRAL_CONSTEXPR Pair<typename std::remove_reference<T>::type, typename std::remove_reference<U>::type> make_pair(T&& first, U&& second) {
+SPIRAL_CONSTEXPR Pair<typename std::remove_reference<T>::type, typename std::remove_reference<U>::type> make_pair(T&& first, U&& second)
+SPIRAL_NOEXCEPT(std::is_nothrow_move_assignable<T>::value &&
+                std::is_nothrow_move_assignable<U>::value)
+{
     return Pair<typename std::remove_reference<T>::type, typename std::remove_reference<U>::type>(libspiral::forward<T>(first), libspiral::forward<U>(second));
 }
 
 struct secondGreaterOrder {
     template<class Key, class Value>
-    SPIRAL_CXX14_CONSTEXPR bool operator()(const Pair<Key, Value>& lhs, const Pair<Key, Value>& rhs) const {
+    SPIRAL_CXX14_CONSTEXPR bool operator()(const Pair<Key, Value>& lhs, const Pair<Key, Value>& rhs) const SPIRAL_NOEXCEPT {
         return lhs.second > rhs.second;
     }
 };
 struct secondLessOrder {
     template<class Key, class Value>
-    SPIRAL_CXX14_CONSTEXPR bool operator()(const Pair<Key, Value>& lhs, const Pair<Key, Value>& rhs) const {
+    SPIRAL_CXX14_CONSTEXPR bool operator()(const Pair<Key, Value>& lhs, const Pair<Key, Value>& rhs) const SPIRAL_NOEXCEPT {
         return lhs.second < rhs.second;
     }
 };

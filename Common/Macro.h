@@ -15,6 +15,8 @@
 #define NS_LIBSPIRAL_END }
 #define USING_NS_LIBSPIRAL using namespace libspiral
 
+#define SPIRAL_NOEXCEPT noexcept
+
 #if __cplusplus >= 201402L
 #define SPIRAL_CXX_14
 #define SPIRAL_CXX14_CONSTEXPR constexpr

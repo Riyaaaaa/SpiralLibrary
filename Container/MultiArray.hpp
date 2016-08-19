@@ -24,26 +24,26 @@ public:
     SPIRAL_STATIC_CONSTEXPR size_t RANK = 0;
     value_type _value;
     
-    operator T() const { return _value; }
+    operator T() const SPIRAL_NOEXCEPT { return _value; }
 public:
     
-    SPIRAL_CXX14_CONSTEXPR iterator begin() {
+    SPIRAL_CXX14_CONSTEXPR iterator begin() SPIRAL_NOEXCEPT {
         return &_value;
     }
     
-    SPIRAL_CXX14_CONSTEXPR iterator end() {
+    SPIRAL_CXX14_CONSTEXPR iterator end() SPIRAL_NOEXCEPT {
         return &(_value) + 1;
     }
     
-    SPIRAL_CONSTEXPR const_iterator begin() const {
+    SPIRAL_CONSTEXPR const_iterator begin() const SPIRAL_NOEXCEPT {
         return &_value;
     }
     
-    SPIRAL_CONSTEXPR const_iterator end() const {
+    SPIRAL_CONSTEXPR const_iterator end() const SPIRAL_NOEXCEPT {
         return &(_value) + 1;
     }
     
-    SPIRAL_CXX14_CONSTEXPR value_type& operator=(const value_type& rhs) {
+    SPIRAL_CXX14_CONSTEXPR value_type& operator=(const value_type& rhs) SPIRAL_NOEXCEPT {
         _value = rhs;
         return _value;
     }
@@ -57,12 +57,12 @@ public:
     }
     
     template<size_t ORIGIN_RANK>
-    SPIRAL_CXX14_CONSTEXPR value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) {
+    SPIRAL_CXX14_CONSTEXPR value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) SPIRAL_NOEXCEPT{
         return _value;
     }
     
     template<size_t ORIGIN_RANK>
-    SPIRAL_CONSTEXPR const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const {
+    SPIRAL_CONSTEXPR const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const SPIRAL_NOEXCEPT {
         return _value;
     }
 };
@@ -81,37 +81,37 @@ public:
     
 public:
     
-    SPIRAL_CXX14_CONSTEXPR iterator begin() {
+    SPIRAL_CXX14_CONSTEXPR iterator begin() SPIRAL_NOEXCEPT{
         return _array[0].begin();
     }
     
-    SPIRAL_CXX14_CONSTEXPR iterator end() {
+    SPIRAL_CXX14_CONSTEXPR iterator end() SPIRAL_NOEXCEPT {
         return _array[First - 1].end();
     }
     
-    SPIRAL_CONSTEXPR const_iterator begin() const {
+    SPIRAL_CONSTEXPR const_iterator begin() const SPIRAL_NOEXCEPT {
         return _array[0].begin();
     }
     
-    SPIRAL_CONSTEXPR const_iterator end() const {
+    SPIRAL_CONSTEXPR const_iterator end() const SPIRAL_NOEXCEPT {
         return _array[First - 1].end();
     }
     
-    SPIRAL_CXX14_CONSTEXPR child& operator[](const size_t& index){
+    SPIRAL_CXX14_CONSTEXPR child& operator[](const size_t& index) SPIRAL_NOEXCEPT {
         return _array[index];
     }
     
-    SPIRAL_CONSTEXPR const child& operator[](const size_t& index) const {
+    SPIRAL_CONSTEXPR const child& operator[](const size_t& index) const SPIRAL_NOEXCEPT {
         return _array[index];
     }
     
     template<size_t ORIGIN_RANK>
-    SPIRAL_CXX14_CONSTEXPR value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) {
+    SPIRAL_CXX14_CONSTEXPR value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) SPIRAL_NOEXCEPT {
         return _array[get<Rank - 1>(indexes)][indexes];
     }
     
     template<size_t ORIGIN_RANK>
-    SPIRAL_CONSTEXPR const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const {
+    SPIRAL_CONSTEXPR const value_type& operator[](const MultiIndex<ORIGIN_RANK>& indexes) const SPIRAL_NOEXCEPT {
         return _array[get<Rank - 1>(indexes)][indexes];
     }
     

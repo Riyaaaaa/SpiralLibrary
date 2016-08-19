@@ -14,12 +14,12 @@
 NS_LIBSPIRAL_BEGIN
 
 template <class T>
-SPIRAL_CONSTEXPR T&& forward(typename std::remove_reference<T>::type& t) noexcept {
+SPIRAL_CONSTEXPR T&& forward(typename std::remove_reference<T>::type& t) SPIRAL_NOEXCEPT {
     return static_cast<T&&>(t);
 }
 
 template <class T>
-SPIRAL_CONSTEXPR T&& forward(typename std::remove_reference<T>::type&& t) noexcept {
+SPIRAL_CONSTEXPR T&& forward(typename std::remove_reference<T>::type&& t) SPIRAL_NOEXCEPT {
     static_assert(!std::is_lvalue_reference<T>::value, "Can not forward an rvalue as an lvalue.");
     return static_cast<T&&>(t);
 }

@@ -20,7 +20,7 @@ struct index_sequence
     
     typedef index_sequence<i...> type;
 
-    SPIRAL_STATIC_CONSTEXPR std::size_t size() noexcept
+    SPIRAL_STATIC_CONSTEXPR std::size_t size() SPIRAL_NOEXCEPT
     {
         return sizeof ... (i);
     }
@@ -65,7 +65,7 @@ template< typename ... T >
 using index_sequence_for = make_index_sequence< sizeof...(T) >;
 
 template <std::size_t ...Indices>
-SPIRAL_CONSTEXPR libspiral::Array<std::size_t, sizeof...(Indices)> _make_index_array(index_sequence<Indices...>)
+SPIRAL_CONSTEXPR libspiral::Array<std::size_t, sizeof...(Indices)> _make_index_array(index_sequence<Indices...>) SPIRAL_NOEXCEPT
 {
     return libspiral::Array<std::size_t, sizeof...(Indices)>{Indices...};
 }
