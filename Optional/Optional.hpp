@@ -62,7 +62,7 @@ namespace detail {
             _value_ptr = new(addressOf(_storage)) value_type(forward<Args>(args)...);
         }
         
-        void assign (value_type& val )
+        void assign (const value_type& val )
         {
             if (isInitialized()) {
                 assign_value(val);
@@ -183,6 +183,14 @@ public:
     
     Optional (Optional&& rhs) {
         base::assign(std::move(rhs));
+    }
+    
+    Optional (const value_type& val) {
+        base::assign(val);
+    }
+    
+    Optional (value_type&& val) {
+        base::assign(std::move(val));
     }
     
     void reset() {

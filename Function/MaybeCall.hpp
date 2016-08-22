@@ -21,17 +21,17 @@ namespace detail {
 template<class T, class... Args>
 struct maybe_impl {
     static auto call(const std::function<T(Args...)>& func, Args&&... args)
-    ->optional<decltype(func(args...))> {
+    ->Optional<decltype(func(args...))> {
         if(func) {
-            return libspiral::make_optional(func(std::forward<Args>(args)...));
+            return libspiral::makeOptional(func(std::forward<Args>(args)...));
         }
-        return optional<decltype(func(std::declval<Args>()...))>(nullopt_t{});
+        return Optional<decltype(func(std::declval<Args>()...))>(nullopt_t{});
     }
 };
 
 template<class... Args>
 struct maybe_impl<void, Args...> {
-    SPIRAL_STATIC_CONSTEXPR void call(const std::function<void(Args...)>& func, Args&&... args) {
+   void call(const std::function<void(Args...)>& func, Args&&... args) {
         if(func) {
             func(forward<Args>(args)...);
         }
@@ -39,10 +39,11 @@ struct maybe_impl<void, Args...> {
 };
 
 }
-    
+
 template<class T, class... Args>
 auto maybeCall(const std::function<T(Args...)>& func, Args&&... args)
-->decltype(detail::maybe_impl<T, Args...>::call(func, args...)) {
+->decltype(detail::maybe_impl<T, Args...>::call(func, forward<Args>(args)...))
+{
     return detail::maybe_impl<T, Args...>::call(func, forward<Args>(args)...);
 }
 
