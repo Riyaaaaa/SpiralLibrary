@@ -19,13 +19,13 @@ NS_LIBSPIRAL_BEGIN
 template<class ENGINE = std::default_random_engine>
 class Random {
 public:
-    template<typename T, typename libspiral::enable_null_t<std::is_integral<T>> = nullptr>
+    template<typename T, typename libspiral::enable_null_t<std::is_integral<T>{}> = nullptr>
     static T getValue(Range<T> range) {
         std::uniform_int_distribution<T> dist(range.min, range.max);
         return dist(engine);
     }
     
-    template<typename T, typename libspiral::enable_null_t<std::is_floating_point<T>> = nullptr>
+    template<typename T, typename libspiral::enable_null_t<std::is_floating_point<T>{}> = nullptr>
     static T getValue(Range<T> range) {
         std::uniform_real_distribution<T> dist(range.min, range.max);
         return dist(engine);

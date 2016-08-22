@@ -10,11 +10,15 @@
 
 #include "../Common/Macro.h"
 #include "MultiArray_and_MultiIndexTest.hpp"
+#include "RandomTest.hpp"
+#include "StringTest.hpp"
 
 namespace testspiral {
 
 static void libspiral_test() {
-    multiArrayAndIndexTest();
+    //multiArrayAndIndexTest();
+    //randomTest();
+    stringTest();
 }
 
 }

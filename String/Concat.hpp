@@ -11,6 +11,7 @@
 #include "../Common/Macro.h"
 #include "../Utility/IndexSequence.hpp"
 #include "../Container/Array.hpp"
+#include <string>
 
 NS_LIBSPIRAL_BEGIN
 
@@ -26,6 +27,11 @@ namespace detail {
 template<unsigned long N1, unsigned long N2>
 constexpr libspiral::Array<char const, N1 + N2 - 1> concat(const char (&a1)[N1], const char (&a2)[N2]) SPIRAL_NOEXCEPT {
     return detail::concat(a1, a2, libspiral::make_index_sequence<N1 - 1>{}, libspiral::make_index_sequence<N2>{});
+}
+
+template<unsigned long N1, unsigned long N2>
+std::string concatToString(const char (&a1)[N1], const char (&a2)[N2]) SPIRAL_NOEXCEPT {
+    return std::string(&detail::concat(a1, a2, libspiral::make_index_sequence<N1 - 1>{}, libspiral::make_index_sequence<N2>{})[0]);
 }
 
 template<unsigned long N1>
