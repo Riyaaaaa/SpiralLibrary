@@ -31,9 +31,9 @@ struct maybe_impl {
 
 template<class... Args>
 struct maybe_impl<void, Args...> {
-    static void call(const std::function<void(Args...)>& func, Args&&... args) {
+    SPIRAL_STATIC_CONSTEXPR void call(const std::function<void(Args...)>& func, Args&&... args) {
         if(func) {
-            func();
+            func(forward<Args>(args)...);
         }
     }
 };

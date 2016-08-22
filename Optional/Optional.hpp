@@ -41,7 +41,7 @@ namespace detail {
             }
         }
         
-        bool isInitialized() {
+        bool isInitialized() const {
             return !(_value_ptr == nullptr);
         }
         
@@ -49,7 +49,7 @@ namespace detail {
             destroy_impl(0);
         }
         
-        void construct(optional_base& arg) {
+        void construct(const optional_base& arg) {
             _value_ptr = new(addressOf(_storage)) value_type(arg);
         }
         
@@ -95,10 +95,10 @@ namespace detail {
         void emplace_assign (Args&&... args)
         {
             destroy();
-            new (addressOf(_storage)) value_type(forward<Args>(args)...);
+            _value_ptr = new (addressOf(_storage)) value_type(forward<Args>(args)...);
         }
         
-        void assign(optional_base& rhs) {
+        void assign(const optional_base& rhs) {
             if (isInitialized())
             {
                 if (rhs.isInitialized()) {
@@ -148,12 +148,12 @@ namespace detail {
         
     private:
         template<class U = T, typename = enable_when_t<std::is_trivially_destructible<U>{}>>
-        void destroy_impl() {
+        void destroy_impl(int) {
             _value_ptr->~value_type();
             _value_ptr = nullptr;
         }
         
-        void destroy_impl(...) {
+        void destroy_impl(...) const {
             _value_ptr = nullptr;
         }
         
@@ -164,25 +164,26 @@ namespace detail {
 }
 
 template<class T>
-class optional : public detail::optional_base<T>
+class Optional : public detail::optional_base<T>
 {
     typedef detail::optional_base<T> base;
     
 public:
-    typedef optional<T> this_type;
+    typedef Optional<T> this_type;
     typedef typename base::value_type value_type;
 
     
-    optional() SPIRAL_NOEXCEPT : base() {}
-    optional(nullopt_t) SPIRAL_NOEXCEPT : base() {}
-    ~optional() = default;
+    Optional() SPIRAL_NOEXCEPT : base() {}
+    Optional(nullopt_t) SPIRAL_NOEXCEPT : base() {}
+    ~Optional() = default;
     
-    optional (const optional& rhs) {
+    Optional (const Optional& rhs) {
         *this = rhs;
     }
     
-    optional (const optional&& rhs) : base( forward<T>(rhs) )
-    {}
+    Optional (Optional&& rhs) {
+        base::assign(std::move(rhs));
+    }
     
     void reset() {
         if(base::isInitialized()) {
@@ -201,15 +202,15 @@ public:
         this->emplace_assign();
     }
 
-    void swap(optional& rhs) SPIRAL_NOEXCEPT_IF(std::is_nothrow_move_constructible<T>::value && noexcept(std::swap(std::declval<T&>(), std::declval<T&>())))
+    void swap(Optional& rhs) SPIRAL_NOEXCEPT_IF(std::is_nothrow_move_constructible<T>::value && noexcept(std::swap(std::declval<T&>(), std::declval<T&>())))
     {
-        if(base::isInitialized() && !base::isInitialized()) {
-            rhs.construct(std::move(*this));
+        if(base::isInitialized() && !rhs.isInitialized()) {
+            rhs.construct(std::move(value()));
             base::destroy();
         }
         else if(!base::isInitialized() && rhs.isInitialized()) {
-            construct(std::move(rhs));
-            rhs.clear();
+            base::construct(std::move(value()));
+            rhs.reset();
         }
         else if (base::isInitialized()  && rhs.isInitialized())  {
             std::swap(*this, rhs);
@@ -226,70 +227,70 @@ public:
         throw bad_optional_access("optional bad access");
     }
     
-    optional& operator=(nullopt_t none) noexcept
+    Optional& operator=(nullopt_t none) noexcept
     {
         base::assign(none);
         return *this;
     }
     
-    optional& operator=(optional const& other) {
+    Optional& operator=(Optional const& other) {
         base::assign(other);
         return *this;
     }
     
-    optional& operator=(optional && other) {
+    Optional& operator=(Optional && other) {
         base::assign(std::move(other));
         return *this;
     }
     
-    optional& operator=(value_type const& value) {
+    Optional& operator=(value_type const& value) {
         base::assign(value);
         return *this;
     }
     
-    optional& operator=(value_type&& value) {
+    Optional& operator=(value_type&& value) {
         base::assign(std::move(value));
         return *this;
     }
     
     template<class U, typename = enable_null_t<std::is_convertible<value_type, U>{}>>
-    optional& operator=(U&& rhs) noexcept
+    Optional& operator=(U&& rhs) noexcept
     {
         base::assign(std::move(static_cast<T>(value)));
         return *this;
     }
     
     value_type const& operator*() const {
-        if(base::isInitialized) {
+        if(base::isInitialized()) {
             return base::get();
         }
         throw bad_optional_access("optional bad access");
     }
     
     value_type& operator*() {
-        return const_cast<value_type&>(*const_cast<optional const&>(*this));
+        return const_cast<value_type&>(*const_cast<Optional const&>(*this));
     }
     
     value_type value() const&
     {
-        return base::isInitialized ? base::get() : throw bad_optional_access("optional bad access");
+        return base::isInitialized() ? base::get() : throw bad_optional_access("optional bad access");
     }
     
     template <class V>
     value_type value_or(V&& v) const&
     {
-        return base::isInitialized ? base::get() : static_cast<T>(forward<V>(v));
+        return base::isInitialized() ? base::get() : static_cast<T>(forward<V>(v));
     }
     
 };
 
 template<class T>
-class optional<T&&>;
+class Optional<T&&>;
 
 template<class T>
-inline optional<T> make_optional ( T const& v  )
+inline Optional<T> makeOptional ( T const& v  )
 {
-    return optional<T>(v);
+    return Optional<T>(v);
 }
 
 NS_LIBSPIRAL_END
