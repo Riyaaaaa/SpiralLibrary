@@ -12,13 +12,15 @@
 #include "MultiArray_and_MultiIndexTest.hpp"
 #include "RandomTest.hpp"
 #include "StringTest.hpp"
+#include "OptionalTest.hpp"
 
 namespace testspiral {
 
 static void libspiral_test() {
     //multiArrayAndIndexTest();
     //randomTest();
-    stringTest();
+    //stringTest();
+    optionalTest();
 }
 
 }
