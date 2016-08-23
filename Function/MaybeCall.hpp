@@ -11,6 +11,7 @@
 #include "../Utility/Forward.hpp"
 #include "../Optional/Optional.hpp"
 #include "../Common/Macro.h"
+#include "../type_traits/Identity.hpp"
 #include <utility>
 #include <functional>
 
@@ -31,7 +32,7 @@ struct maybe_impl {
 
 template<class... Args>
 struct maybe_impl<void, Args...> {
-   void call(const std::function<void(Args...)>& func, Args&&... args) {
+   static void call(const std::function<void(Args...)>& func, Args&&... args) {
         if(func) {
             func(forward<Args>(args)...);
         }
@@ -41,10 +42,24 @@ struct maybe_impl<void, Args...> {
 }
 
 template<class T, class... Args>
-auto maybeCall(const std::function<T(Args...)>& func, Args&&... args)
+auto maybeCall(const std::function<T(Args...)>& func, Identity_t<Args>&&... args)
 ->decltype(detail::maybe_impl<T, Args...>::call(func, forward<Args>(args)...))
 {
     return detail::maybe_impl<T, Args...>::call(func, forward<Args>(args)...);
+}
+
+template<class T, class... Args>
+auto maybeCall(const std::function<T(Args...)>& func, Identity_t<Args>&... args)
+->decltype(detail::maybe_impl<T, Args...>::call(func, forward<Args>(args)...))
+{
+    return detail::maybe_impl<T, Args...>::call(func, forward<Args>(args)...);
+}
+
+template<class T>
+auto maybeCall(const std::function<T(void)>& func)
+->decltype(detail::maybe_impl<T>::call(func))
+{
+    return detail::maybe_impl<T>::call(func);
 }
 
 NS_LIBSPIRAL_END
