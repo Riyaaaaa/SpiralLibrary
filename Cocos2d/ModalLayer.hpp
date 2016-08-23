@@ -22,27 +22,29 @@ public:
         if(!LayerColor::initWithColor(cocos2d::Color4B(0, 0, 0, 64))) {
             return false;
         }
-        auto listener = cocos2d::EventListenerTouchOneByOne::create();
-        listener->onTouchBegan = [=](cocos2d::Touch* t, cocos2d::Event* e){
+        _listener = cocos2d::EventListenerTouchOneByOne::create();
+        _listener->onTouchBegan = [=](cocos2d::Touch* t, cocos2d::Event* e){
             if(onTouchBegan) {
                 return onTouchBegan(t, e);
             }
             return true;
         };
-        listener->onTouchEnded = [=](cocos2d::Touch* t, cocos2d::Event* e){
+        _listener->onTouchEnded = [=](cocos2d::Touch* t, cocos2d::Event* e){
             if(onTouchEnded) {
                 onTouchEnded(t, e);
             }
         };
-        listener->setSwallowTouches(true);
-        getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+        _listener->setSwallowTouches(true);
+        getEventDispatcher()->addEventListenerWithSceneGraphPriority(_listener, this);
         
         return true;
     }
     
     std::function<bool(cocos2d::Touch*, cocos2d::Event*)> onTouchBegan;
     std::function<void(cocos2d::Touch*, cocos2d::Event*)> onTouchEnded;
-private:
+    
+    CC_SYNTHESIZE(cocos2d::EventListenerTouchOneByOne*, _listener, Listener);
+    
 };
 
 NS_LIBSPIRAL_END
