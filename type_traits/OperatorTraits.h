@@ -16,15 +16,30 @@
 
 NS_LIBSPIRAL_BEGIN
 
-template<class T>
-struct hasAddressOpTest {
-    template<typename U = T, typename = Identity_t<decltype(operator&(std::declval<U>()))>>
-    static std::true_type test(int);
-    static std::false_type test(...);
-};
+namespace detail {
+    
+    template<class T>
+    struct hasAddressOpTest {
+        template<typename U = T, typename = Identity_t<decltype(operator&(std::declval<U>()))>>
+        static std::true_type test(int);
+        static std::false_type test(...);
+    };
+    
+    template<class T>
+    struct hasNotOpTest {
+        template<typename U = T, typename = Identity_t<decltype(operator!(std::declval<U>()))>>
+        static std::true_type test(int);
+        static std::false_type test(...);
+    };
+    
+}
 
 template<class T>
-struct hasAddressOp : public Identity_t<decltype(hasAddressOpTest<T>::test(0))>
+struct hasAddressOp : public Identity_t<decltype(detail::hasAddressOpTest<T>::test(0))>
+{};
+
+template<class T>
+struct hasNotOp : public Identity_t<decltype(detail::hasNotOpTest<T>::test(0))>
 {};
                                       
 
