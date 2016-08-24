@@ -217,7 +217,7 @@ public:
             base::destroy();
         }
         else if(!base::isInitialized() && rhs.isInitialized()) {
-            base::construct(std::move(value()));
+            base::construct(std::move(rhs.value()));
             rhs.reset();
         }
         else if (base::isInitialized()  && rhs.isInitialized())  {
@@ -228,8 +228,15 @@ public:
     explicit operator bool() const SPIRAL_NOEXCEPT { return base::isInitialized(); }
     bool operator!() const SPIRAL_NOEXCEPT { return !base::isInitialized(); }
     
-    T operator ->() const {
-        if(base::isInitialized) {
+    const T* operator ->() const {
+        if(base::isInitialized()) {
+            return base::getPtr();
+        }
+        throw bad_optional_access("optional bad access");
+    }
+    
+    T* operator ->() {
+        if(base::isInitialized()) {
             return base::getPtr();
         }
         throw bad_optional_access("optional bad access");
