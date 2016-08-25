@@ -13,7 +13,8 @@
 #include "RandomTest.hpp"
 #include "StringTest.hpp"
 #include "OptionalTest.hpp"
-#include "MaybeCallTest.h"
+#include "MaybeCallTest.hpp"
+#include "OpTraitsTest.hpp"
 
 namespace testspiral {
 
@@ -22,7 +23,8 @@ static void libspiral_test() {
     //randomTest();
     //stringTest();
     //optionalTest();
-    maybeCallTest();
+    //maybeCallTest();
+    opTraitsTest();
 }
 
 }

@@ -13,12 +13,6 @@
 #include "../Structure/MultiIndex.hpp"
 #include <iostream>
 
-enum class StoneType {
-    None = 0,
-    Black,
-    White
-};
-
 namespace testspiral {
     USING_NS_LIBSPIRAL;
 static void multiArrayAndIndexTest() {

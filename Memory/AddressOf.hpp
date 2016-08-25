@@ -9,7 +9,7 @@
 #define AddressOf_h
 
 #include<memory>
-#include "../type_traits/OperatorTraits.h"
+#include "../type_traits/OperatorTraits.hpp"
 #include "../Common/Macro.h"
 
 NS_LIBSPIRAL_BEGIN

@@ -9,7 +9,6 @@
 #define OperatorTraits_h
 
 #include<type_traits>
-#include "../type_traits/OperatorTraits.h"
 #include "../Common/Macro.h"
 #include "Identity.hpp"
 #include "Enabler.hpp"
@@ -20,14 +19,14 @@ namespace detail {
     
     template<class T>
     struct hasAddressOpTest {
-        template<typename U = T, typename = Identity_t<decltype(operator&(std::declval<U>()))>>
+        template<typename U = T, typename = Identity_t<decltype((std::declval<U>().operator&()))>>
         static std::true_type test(int);
         static std::false_type test(...);
     };
     
     template<class T>
     struct hasNotOpTest {
-        template<typename U = T, typename = Identity_t<decltype(operator!(std::declval<U>()))>>
+        template<typename U = T, typename = Identity_t<decltype((std::declval<U>().operator!()))>>
         static std::true_type test(int);
         static std::false_type test(...);
     };
