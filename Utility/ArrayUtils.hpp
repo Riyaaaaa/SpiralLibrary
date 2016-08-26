@@ -15,6 +15,11 @@ NS_LIBSPIRAL_BEGIN
 
 #if defined(SPIRAL_CXX_14)
 
+template<class T, class... Args>
+SPIRAL_CXX_11 Array<T, sizeof...(Args)> makeArray(Args&&... args) {
+    return Array<T, sizeof...(Args)>{std::forward<Args>(arg)...};
+}
+
 template<class T, unsigned long Size>
 SPIRAL_CXX14_CONSTEXPR Array<T, Size> arrayTruncate(Array<T, Size> source, unsigned long n){
     for(unsigned long i = n; i < Size; i++){
