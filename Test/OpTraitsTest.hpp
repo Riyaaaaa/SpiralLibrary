@@ -2,7 +2,6 @@
 #ifndef OpTraitsTest_h
 #define OpTraitsTest_h
 
-
 #include "../type_traits/OperatorTraits.hpp"
 #include <iostream>
 

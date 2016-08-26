@@ -15,6 +15,7 @@
 #include "OptionalTest.hpp"
 #include "MaybeCallTest.hpp"
 #include "OpTraitsTest.hpp"
+#include "ArrayUtilsTest.hpp"
 
 namespace testspiral {
 
@@ -24,7 +25,8 @@ static void libspiral_test() {
     //stringTest();
     //optionalTest();
     //maybeCallTest();
-    opTraitsTest();
+    //opTraitsTest();
+    ArrayUtilsTest();
 }
 
 }

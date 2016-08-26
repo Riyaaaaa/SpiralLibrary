@@ -10,14 +10,21 @@
 
 #include "../Common/Macro.h"
 #include "../Container/Array.hpp"
+#include "../Utility/Forward.hpp"
+#include "../type_traits/TypeTraits.hpp"
 
 NS_LIBSPIRAL_BEGIN
 
-#if defined(SPIRAL_CXX_14)
+template<class... Args>
+SPIRAL_CONSTEXPR Array<typename head_type<Args...>::type, sizeof...(Args)> makeArray(Args&&... args) {
+    static_assert(is_all_convertible<typename head_type<Args...>::type, Args...>::value, "type error");
+    return Array<typename head_type<Args...>::type, sizeof...(Args)>{forward<Args>(args)...};
+}
 
 template<class T, class... Args>
-SPIRAL_CXX_11 Array<T, sizeof...(Args)> makeArray(Args&&... args) {
-    return Array<T, sizeof...(Args)>{std::forward<Args>(arg)...};
+SPIRAL_CONSTEXPR Array<T, sizeof...(Args)> makeArray(Args&&... args) {
+    static_assert(is_all_convertible<T, Args...>::value, "type error");
+    return Array<T, sizeof...(Args)>{static_cast<T>(args)...};
 }
 
 template<class T, unsigned long Size>
@@ -27,6 +34,9 @@ SPIRAL_CXX14_CONSTEXPR Array<T, Size> arrayTruncate(Array<T, Size> source, unsig
     }
     return source;
 }
+
+
+#if defined(SPIRAL_CXX_14)
 
 template<unsigned long CutSize, class T, unsigned long Size>
 SPIRAL_CXX14_CONSTEXPR Array<T, CutSize> cutOutArray(Array<T, Size> source){
@@ -60,6 +70,7 @@ namespace detail {
         }
     };
 }
+
 template<unsigned long CutSize, class T, unsigned long Size>
 SPIRAL_CONSTEXPR Array<T, CutSize> cutOutArray(Array<T, Size> source){
     return detail::_cutOutArray<T, CutSize, Size, 0>()(Array<T, CutSize>{}, source);
