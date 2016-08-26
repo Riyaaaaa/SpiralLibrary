@@ -42,7 +42,7 @@ namespace detail {
 }
 
 template<class T, class... Args>
-struct is_all_convertible : detail::is_all_convertible_impl<T, sizeof...(Args) == 2, decay_t<Args>...>{};
+struct is_all_convertible : detail::is_all_convertible_impl<T, sizeof...(Args) == 2, Args...>{};
 
 NS_LIBSPIRAL_END
 
