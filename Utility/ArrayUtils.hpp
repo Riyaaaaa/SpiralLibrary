@@ -17,8 +17,8 @@ NS_LIBSPIRAL_BEGIN
 
 template<class... Args>
 SPIRAL_CONSTEXPR Array<typename head_type<Args...>::type, sizeof...(Args)> makeArray(Args&&... args) {
-    static_assert(is_all_convertible<decay_t<head_type<Args...>::type>, decay_t<Args>...>::value, "type error");
-    return Array<decay_t<head_type<Args...>::type>, sizeof...(Args)>{forward<Args>(args)...};
+    static_assert(is_all_same<decay_t<typename head_type<Args...>::type>, decay_t<Args>...>::value, "type error");
+    return Array<decay_t<typename head_type<Args...>::type>, sizeof...(Args)>{forward<Args>(args)...};
 }
 
 template<class T, class... Args>

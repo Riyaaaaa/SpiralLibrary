@@ -39,10 +39,26 @@ namespace detail {
     struct is_all_convertible_impl<T, true, HEAD, Args...> {
         static constexpr bool value = std::is_convertible<T, HEAD>::value;
     };
+    
+    template<class T, bool isEnd, class HEAD, class... Args>
+    struct is_all_same_impl;
+    
+    template<class T, class HEAD, class... Args>
+    struct is_all_same_impl<T, false, HEAD, Args...> {
+        static constexpr bool value = std::is_same<T, HEAD>::value ? is_all_same_impl<T, sizeof...(Args) == 2, Args...>::value : std::false_type{};
+    };
+    
+    template<class T, class HEAD, class... Args>
+    struct is_all_same_impl<T, true, HEAD, Args...> {
+        static constexpr bool value = std::is_same<T, HEAD>::value;
+    };
 }
 
 template<class T, class... Args>
 struct is_all_convertible : detail::is_all_convertible_impl<T, sizeof...(Args) == 2, Args...>{};
+
+template<class T, class... Args>
+struct is_all_same : detail::is_all_same_impl<T, sizeof...(Args) == 2, Args...>{};
 
 NS_LIBSPIRAL_END
 
