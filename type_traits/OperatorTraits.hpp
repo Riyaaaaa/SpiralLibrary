@@ -31,6 +31,20 @@ namespace detail {
         static std::false_type test(...);
     };
     
+    template<class T>
+    struct hasRShiftOpTest {
+        template<typename U = T, typename = Identity_t<decltype((std::declval<U>().operator>>()))>>
+        static std::true_type test(int);
+        static std::false_type test(...);
+    };
+    
+    template<class T>
+    struct hasLShiftOpTest {
+        template<typename U = T, typename = Identity_t<decltype((std::declval<U>().operator<<()))>>
+        static std::true_type test(int);
+        static std::false_type test(...);
+    };
+    
 }
 
 template<class T>
