@@ -149,11 +149,11 @@ namespace detail {
     private:
         template<class U = T, typename = enable_when_t<std::is_trivially_destructible<U>{}>>
         void destroy_impl(int) {
-            _value_ptr->~value_type();
             _value_ptr = nullptr;
         }
         
-        void destroy_impl(...) const {
+        void destroy_impl(...) {
+            _value_ptr->~value_type();
             _value_ptr = nullptr;
         }
         
