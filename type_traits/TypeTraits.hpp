@@ -51,13 +51,19 @@ namespace detail {
     struct is_all_same_impl<T, true, HEAD, Args...> {
         static constexpr bool value = std::is_same<T, HEAD>::value;
     };
-}
+ }
 
 template<class T, class... Args>
-struct is_all_convertible : detail::is_all_convertible_impl<T, sizeof...(Args) == 2, Args...>{};
+struct is_all_convertible : std::conditional<sizeof...(Args) == 1,
+                                            std::is_convertible<T, typename head_type<Args...>::type>,
+                                            detail::is_all_convertible_impl<T, sizeof...(Args) == 2, Args...>
+                                            >::type{};
 
 template<class T, class... Args>
-struct is_all_same : detail::is_all_same_impl<T, sizeof...(Args) == 2, Args...>{};
+struct is_all_same : std::conditional<sizeof...(Args) == 1,
+                                    std::is_same<T, typename head_type<Args...>::type>,
+                                    detail::is_all_same_impl<T, sizeof...(Args) == 2, Args...>
+                                    >::type{};
 
 NS_LIBSPIRAL_END
 
