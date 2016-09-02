@@ -30,6 +30,18 @@ public:
         std::uniform_real_distribution<T> dist(range.min, range.max);
         return dist(engine);
     }
+    
+    template<typename T, typename libspiral::enable_null_t<std::is_integral<T>{}> = nullptr>
+    static T getValue(T min, T max) {
+        std::uniform_int_distribution<T> dist(min, max);
+        return dist(engine);
+    }
+    
+    template<typename T, typename libspiral::enable_null_t<std::is_floating_point<T>{}> = nullptr>
+    static T getValue(T min, T max) {
+        std::uniform_real_distribution<T> dist(min, max);
+        return dist(engine);
+    }
 private:
     static std::random_device seed_gen;
     static ENGINE engine;
