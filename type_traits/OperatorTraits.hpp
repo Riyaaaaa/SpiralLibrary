@@ -54,7 +54,14 @@ struct hasAddressOp : public Identity_t<decltype(detail::hasAddressOpTest<T>::te
 template<class T>
 struct hasNotOp : public Identity_t<decltype(detail::hasNotOpTest<T>::test(0))>
 {};
-                                      
+
+template<class T>
+struct hasRShiftOp : public Identity_t<decltype(detail::hasRShiftOpTest<T>::test(0))>
+{};
+
+template<class T>
+struct hasLShiftOp : public Identity_t<decltype(detail::hasLShiftOpTest<T>::test(0))>
+{};
 
 NS_LIBSPIRAL_END
 
