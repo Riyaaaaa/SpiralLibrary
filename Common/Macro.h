@@ -8,8 +8,8 @@
 #ifndef Macro_h
 #define Macro_h
 
-#define CLOCKWISE_8_FOR { Index{-1, 0}, Index{-1, 1}, Index{0, 1}, Index{1, 1}, Index{1, 0}, Index{1, -1}, Index{0, -1}, Index{-1, -1} } 
-#define CLOCKWISE_4_FOR { Index{-1, 0}, Index{0, 1}, Index{1, 0}, Index{0, -1} }
+#define CLOCKWISE_8_FOR { libspiral::Index{-1, 0}, libspiral::Index{-1, 1}, libspiral::Index{0, 1}, libspiral::Index{1, 1}, libspiral::Index{1, 0}, libspiral::Index{1, -1}, libspiral::Index{0, -1}, libspiral::Index{-1, -1} }
+#define CLOCKWISE_4_FOR { libspiral::Index{-1, 0}, libspiral::Index{0, 1}, libspiral::Index{1, 0}, libspiral::Index{0, -1} }
 
 #define NS_LIBSPIRAL_BEGIN namespace libspiral {
 #define NS_LIBSPIRAL_END }

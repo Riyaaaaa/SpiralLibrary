@@ -43,6 +43,10 @@ public:
         return &(_value) + 1;
     }
     
+    SPIRAL_CONSTEXPR size_t size() const SPIRAL_NOEXCEPT {
+        return 1;
+    }
+    
     SPIRAL_CXX14_CONSTEXPR value_type& operator=(const value_type& rhs) SPIRAL_NOEXCEPT {
         _value = rhs;
         return _value;
@@ -103,6 +107,10 @@ public:
     
     SPIRAL_CONSTEXPR const child& operator[](const size_t& index) const SPIRAL_NOEXCEPT {
         return _array[index];
+    }
+    
+    SPIRAL_CONSTEXPR size_t size() const SPIRAL_NOEXCEPT {
+        return First;
     }
     
     template<size_t ORIGIN_RANK>
