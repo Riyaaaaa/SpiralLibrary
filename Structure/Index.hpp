@@ -54,7 +54,7 @@ public:
     }
     
     SPIRAL_CONSTEXPR int manhattanDistance(const Index& v) const {
-        return (v.x - this->x) + (v.y - this->y);
+        return libspiral::abs(v.x - this->x) + libspiral::abs(v.y - this->y);
     }
     
     SPIRAL_CONSTEXPR Index operator+(const Index& v) const{
@@ -133,8 +133,8 @@ template<std::size_t IndexWidth>
 struct IndexHash {
     typedef std::size_t result_type;
     result_type operator()(const Index& key) const {
-        int hash = key.y * IndexWidth + key.x;
-        return std::hash<int>()(hash);
+        size_t hash = key.y * IndexWidth + key.x;
+        return std::hash<size_t>()(hash);
     }
 };
 

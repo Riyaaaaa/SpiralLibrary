@@ -12,10 +12,15 @@
 
 NS_LIBSPIRAL_BEGIN
 
+template<typename T>
+SPIRAL_CONSTEXPR T abs(T value) {
+    return value < 0 ? -value : value;
+}
+
 #if __cplusplus >= 201402L
 
 template < typename T >
-constexpr T sqrt( T s )
+SPIRAL_CONSTEXPR T sqrt( T s )
 {
     T x = s / 2.0 ;
     T prev = 0.0 ;
@@ -29,10 +34,10 @@ constexpr T sqrt( T s )
 }
 
 template < typename T >
-constexpr T pow(T s, T e);
+SPIRAL_CONSTEXPR T pow(T s, T e);
 
 template <>
-constexpr int pow<int>(int s, int e)
+SPIRAL_CONSTEXPR int pow<int>(int s, int e)
 {
     int ret = 1;
     while(0 < e)
