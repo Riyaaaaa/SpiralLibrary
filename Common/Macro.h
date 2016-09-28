@@ -11,6 +11,8 @@
 #define CLOCKWISE_8_FOR { libspiral::Index{-1, 0}, libspiral::Index{-1, 1}, libspiral::Index{0, 1}, libspiral::Index{1, 1}, libspiral::Index{1, 0}, libspiral::Index{1, -1}, libspiral::Index{0, -1}, libspiral::Index{-1, -1} }
 #define CLOCKWISE_4_FOR { libspiral::Index{-1, 0}, libspiral::Index{0, 1}, libspiral::Index{1, 0}, libspiral::Index{0, -1} }
 
+#define ALL_RANGE(n) n.begin(), n.end()
+
 #define NS_LIBSPIRAL_BEGIN namespace libspiral {
 #define NS_LIBSPIRAL_END }
 #define USING_NS_LIBSPIRAL using namespace libspiral
