@@ -17,6 +17,11 @@ SPIRAL_CONSTEXPR T abs(T value) {
     return value < 0 ? -value : value;
 }
 
+template<typename T>
+SPIRAL_CONSTEXPR int sign(T value) {
+    return (value > 0) - (value < 0);
+}
+
 #if __cplusplus >= 201402L
 
 template < typename T >
