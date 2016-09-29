@@ -63,14 +63,18 @@ SPIRAL_CONSTEXPR int pow<int>(int s, int e)
 
 #elif __cplusplus > 199711L
 
+namespace detail {
+
 template < typename T >
 SPIRAL_CONSTEXPR T sqrt_impl( T s, T x, T prev ) {
     return x != prev ? sqrt_impl( s, static_cast<T>(( x + s / x ) / 2.0), x ) : x ;
 }
+    
+}
 
 template < typename T >
 SPIRAL_CONSTEXPR  T sqrt( T s ) {
-    return sqrt_impl( s, static_cast<T>(s / 2.0), s ) ;
+    return detail::sqrt_impl( s, static_cast<T>(s / 2.0), s ) ;
 }
 
 template < typename T >
