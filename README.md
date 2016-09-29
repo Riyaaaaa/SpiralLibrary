@@ -14,13 +14,17 @@ Android NDKはgcc 4.9にしか対応していません。
 
 例)
 
-constexpr対応互換コンテナ Array
+constexpr対応互換コンテナ
 
-optional型 Optional
+optional型
 
-コンパイル時整数シーケンス index_sequence
+コンパイル時整数シーケンス
 
 type_traitsエイリアス
+
+メタプログラミングヘルパ
+
+Concept
 
 等...
 
