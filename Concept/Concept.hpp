@@ -15,29 +15,22 @@
 
 NS_LIBSPIRAL_BEGIN
 
-namespace detail {
-    template <class Concept>
-    struct usage_requirements
-    {
-        ~usage_requirements() { ((Concept*)0)->~constraint(); }
-    };
-}
-
 template <class T> inline void ignore_unused_variable_warning(T const&) {}
 template <class Concept>
-void function_requires()
+void functionRequires()
 {
-    void (Concept::*fptr)() = &Concept::constraints;
+    void (Concept::*fptr)() = &Concept::constraint;
     ignore_unused_variable_warning(fptr);
 }
 
+namespace concept {
 
-#define SPIRAL_CLASS_REQUIRE(TT, Concept) \
-        typedef void (Concept <TT>::* func##type_var##Concept)(); \
+#define SPIRAL_CLASS_REQUIRE(TT, NS, Concept) \
+        typedef void (NS::Concept <TT>::* func##TT##Concept)(); \
         template <func##TT##Concept _Tp1> \
         struct Concept_checking_##TT##Concept { }; \
         typedef Concept_checking_##TT##Concept< \
-        & Concept<TT>::constraints> \
+        & NS::Concept<TT>::constraint> \
         Concept_checking_typedef_##TT##Concept
 
 #define CONCEPT(Concept, TT) \
@@ -45,7 +38,10 @@ template<class TT> \
 class Concept
 
 #define CONSTRAINT() \
-void constraint()
+public: void constraint()
+
+#define CONST_CONSTRAINT(TT) \
+void constConstraint(const TT & x)
 
 CONCEPT(DefaultConstructible, TT) {
     CONSTRAINT() {
@@ -53,6 +49,40 @@ CONCEPT(DefaultConstructible, TT) {
         ignore_unused_variable_warning(a);
     }
 };
+
+CONCEPT(Assignable, TT) {
+    CONSTRAINT() {
+        a = b;
+        constConstraint(b);
+    }
+    
+private:
+    CONST_CONSTRAINT(TT) {
+        ignore_unused_variable_warning(x);
+    }
+    TT a;
+    TT b;
+};
+
+CONCEPT(CopyConstructible, TT) {
+    CONSTRAINT() {
+        TT a(b);
+        TT* ptr = &a;
+        constConstraint(a);
+        ignore_unused_variable_warning(ptr);
+    }
+    
+private:
+    CONST_CONSTRAINT(TT) {
+        TT c(x);
+        const TT* ptr = &x;
+        ignore_unused_variable_warning(c);
+        ignore_unused_variable_warning(ptr);
+    }
+    TT b;
+};
+    
+}
 
 NS_LIBSPIRAL_END
 

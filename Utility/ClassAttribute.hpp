@@ -23,6 +23,12 @@ namespace attribute {
         Noncopyable& operator=(const Noncopyable&) = delete;
     };
     
+    class Nonassignable {
+    protected:
+        Nonassignable& operator= (const Nonassignable& other) = delete;
+        Nonassignable& operator= (Nonassignable other) = delete;
+    };
+    
 }
 
 NS_LIBSPIRAL_END
