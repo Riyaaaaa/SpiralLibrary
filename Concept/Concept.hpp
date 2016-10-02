@@ -82,6 +82,27 @@ private:
     TT b;
 };
     
+CONCEPT(EqualityComparable, TT) {
+    CONSTRAINT() {
+        bool r;
+        r = a == b;
+        r = a != b;
+        ignore_unused_variable_warning(r);
+    }
+private:
+    TT a, b;
+};
+
+CONCEPT(LessThanComparable, TT) {
+    CONSTRAINT() {
+        bool r = a < b;
+        ignore_unused_variable_warning(r);
+    }
+private:
+    TT a, b;
+};
+
+
 }
 
 NS_LIBSPIRAL_END
