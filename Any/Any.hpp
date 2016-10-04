@@ -102,7 +102,7 @@ public:
         if(_value_ptr) {
             delete _value_ptr;
         }
-        _value_ptr = detail::holder<decay_t<T>>(arg);
+        _value_ptr = new detail::holder<decay_t<T>>(arg);
     }
     
     template<class T>

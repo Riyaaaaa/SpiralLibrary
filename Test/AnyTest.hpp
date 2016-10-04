@@ -19,6 +19,10 @@ namespace testspiral {
         if(p) {
             std::cout << *p << std::endl;
         }
+        char** p2 = any_cast<char*>(&a);
+        if(p2) {
+            std::cout << *p2 << std::endl;
+        }
         int b = any_cast<int>(a);
         std::cout << b << std::endl;
         
@@ -30,6 +34,11 @@ namespace testspiral {
         Optional<char> b3 = any_cast_noexp<char>(a2);
         if(b3) {
             std::cout << b3.value() << std::endl;
+        }
+        a2.emplace('a');
+        Optional<char> b4 = any_cast_noexp<char>(a2);
+        if(b4) {
+            std::cout << b4.value() << std::endl;
         }
     }
     
