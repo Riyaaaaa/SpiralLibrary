@@ -10,8 +10,8 @@
 
 #include "../Common/Macro.h"
 
-#include "../type_traits/TypeTraits.hpp"
-#include "../type_traits/StdTraitsAlias.hpp"
+#include "../TypeTraits/TypeTraits.hpp"
+#include "../TypeTraits/StdTraitsAlias.hpp"
 
 NS_LIBSPIRAL_BEGIN
 

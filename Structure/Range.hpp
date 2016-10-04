@@ -9,7 +9,7 @@
 #define Range_h
 
 #include "../Common/Macro.h"
-#include "../type_traits/Tag.hpp"
+#include "../TypeTraits/Tag.hpp"
 
 NS_LIBSPIRAL_BEGIN
 

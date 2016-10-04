@@ -8,7 +8,7 @@
 #ifndef OpTraitsTest_h
 #define OpTraitsTest_h
 
-#include "../type_traits/OperatorTraits.hpp"
+#include "../TypeTraits/OperatorTraits.hpp"
 #include <iostream>
 
 namespace testspiral {

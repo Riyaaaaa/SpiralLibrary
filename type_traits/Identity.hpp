@@ -5,36 +5,23 @@
  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  =============================================================================*/
 
-#ifndef AddressOf_h
-#define AddressOf_h
+#ifndef Identity_h
+#define Identity_h
 
-#include<memory>
-#include "../TypeTraits/OperatorTraits.hpp"
+#include <type_traits>
 #include "../Common/Macro.h"
 
 NS_LIBSPIRAL_BEGIN
 
-namespace detail {
+template<typename T>
+struct Identity : std::true_type {
+public:
+    typedef T type;
+};
 
 template<typename T>
-typename std::enable_if< hasAddressOp<T>::value, T* >::type
-_addressof_impl(T& t) noexcept {
-return std::addressof(t);
-}
-
-template<typename T>
-typename std::enable_if< !hasAddressOp<T>::value, T*>::type
-_addressof_impl(T& t) noexcept {
-return &t;
-}
-
-}
-
-template<typename T>
-SPIRAL_CONSTEXPR T* addressOf(T& t) noexcept {
-    return detail::_addressof_impl(t);
-}
+using Identity_t = typename Identity<T>::type;
 
 NS_LIBSPIRAL_END
 
-#endif /* AddressOf_h */
+#endif /* Identity_h */

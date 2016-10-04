@@ -11,7 +11,7 @@
 #include "../Common/Macro.h"
 #include "../Container/Array.hpp"
 #include "../Utility/Forward.hpp"
-#include "../type_traits/TypeTraits.hpp"
+#include "../TypeTraits/TypeTraits.hpp"
 
 NS_LIBSPIRAL_BEGIN
 

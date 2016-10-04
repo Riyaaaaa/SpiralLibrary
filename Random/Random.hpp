@@ -12,7 +12,7 @@
 #include <type_traits>
 #include "../Common/Macro.h"
 #include "../Structure/Range.hpp"
-#include "../type_traits/Enabler.hpp"
+#include "../TypeTraits/Enabler.hpp"
 
 NS_LIBSPIRAL_BEGIN
 
