@@ -109,7 +109,7 @@ template<class T, class U = default_t>
 struct alias;
 
 template<class T>
-struct alias<T, void> {
+struct alias<T, default_t> {
     VALUE_ALIAS(is_void);
     VALUE_ALIAS(is_integral);
     VALUE_ALIAS(is_floating_point);

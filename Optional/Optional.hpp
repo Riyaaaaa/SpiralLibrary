@@ -59,7 +59,7 @@ namespace detail {
         
         template<typename... Args>
         void construct(Args&&... args) {
-            _value_ptr = new(addressOf(_storage)) value_type(forward<Args>(args)...);
+            _value_ptr = new(addressOf(_storage)) value_type(libspiral::forward<Args&&>(args)...);
         }
         
         void assign (const value_type& val )
@@ -303,8 +303,7 @@ template<class T>
 class Optional<T&&>;
 
 template<class T>
-inline Optional<T> makeOptional ( T const& v  )
-{
+inline Optional<T> makeOptional ( T const& v  ) {
     return Optional<T>(v);
 }
 
