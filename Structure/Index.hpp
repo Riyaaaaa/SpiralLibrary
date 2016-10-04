@@ -31,7 +31,7 @@ public:
     : x(xx), y(yy)
     {}
     
-    SPIRAL_CXX14_CONSTEXPR MultiIndex(std::initializer_list<int> list)
+    SPIRAL_CXX14_CONSTEXPR MultiIndex(::std::initializer_list<int> list)
     :x(*list.begin()), y(*(list.begin() + 1))
     {}
     
