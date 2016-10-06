@@ -18,6 +18,7 @@
 #include "ArrayUtilsTest.hpp"
 #include "ConceptTest.hpp"
 #include "AnyTest.hpp"
+#include "DelayCallTest.hpp"
 
 namespace testspiral {
 
@@ -30,7 +31,8 @@ static void libspiral_test() {
     //opTraitsTest();
     //ArrayUtilsTest();
     //ConceptTest();
-    AnyTest();
+    //AnyTest();
+    delayCallTest();
 }
 
 }
