@@ -33,8 +33,10 @@ public:
         
         for(auto enableHand : enableHands) {
             auto task = node.done(field, enableHand);
+            history.push(task);
             float eval = search(field, false, -FLT_MAX, FLT_MAX, 1, maxDepth, std::forward<NodeArgs>(args)...);
             evalPriority.push_back(libspiral::make_pair(enableHand, maxDepth % 2 == 0 ? eval : -eval));
+            history.pop();
             node.undo(field, task);
         }
         std::sort(evalPriority.begin(), evalPriority.end(), libspiral::secondGreaterOrder{});
@@ -56,12 +58,13 @@ private:
             return node.eval(field, _turn + depth);
         }
         if (enableHands.empty()) {
-            return search(field, !turn, alpha, beta, depth + 1, maxDepth, std::forward<NodeArgs>(args)...);
+            return search(field, !turn, alpha, beta, depth, maxDepth, std::forward<NodeArgs>(args)...);
         }
         for(auto enableHand : enableHands) {
             auto task = node.done(field, enableHand);
             history.push(task);
             float eval = search(field, !turn, node.getAlpha(), node.getBeta(), depth + 1, maxDepth, std::forward<NodeArgs>(args)...);
+            history.pop();
             node.undo(field, task);
             if (node.isPruning(eval)) {
                 return eval;
@@ -72,11 +75,8 @@ private:
     }
     
     int _turn;
-    static typename NodeState::DiffStack_t history;
+    typename NodeState::DiffStack_t history;
 };
-
-template<class NodeState>
-typename NodeState::DiffStack_t DiffManagedAlphaBeta<NodeState>::history;
 
 NS_LIBSPIRAL_END
 
