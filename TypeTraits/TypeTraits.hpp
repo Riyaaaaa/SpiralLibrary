@@ -25,6 +25,9 @@ struct is_null_pointer : public std::false_type {};
 template<>
 struct is_null_pointer<std::nullptr_t> : public std::true_type {};
 
+template<class T>
+using void_t = void;
+
 namespace detail {
     template<class T, bool isEnd, class HEAD, class... Args>
     struct is_all_convertible_impl;
