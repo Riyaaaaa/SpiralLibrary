@@ -19,6 +19,7 @@
 #include "ConceptTest.hpp"
 #include "AnyTest.hpp"
 #include "DelayCallTest.hpp"
+#include "SignalSlotsTest.hpp"
 
 namespace testspiral {
 
