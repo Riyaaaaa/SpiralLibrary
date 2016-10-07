@@ -10,6 +10,7 @@
 
 #include"../Container/Array.hpp"
 #include"../Common/Macro.h"
+#include <cstddef>
 
 NS_LIBSPIRAL_BEGIN
 
