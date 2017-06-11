@@ -10,6 +10,8 @@
 
 #include "../Common/Macro.h"
 #include "../TypeTraits/StdTraitsAlias.hpp"
+#include "../Optional/Optional.hpp"
+#include "../Memory/AddressOf.hpp"
 #include <typeindex>
 #include <utility>
 #include <exception>
@@ -122,18 +124,23 @@ const T* any_cast(const Any* operand) {
     return any_cast<T>(const_cast<Any*>(operand));
 }
 
-template<class T>
-T any_cast(Any& operand) {
-    remove_cv_t<T>* result = any_cast<remove_cv_t<T>>(&operand);
-    if(!result) {
+template<typename T>
+T any_cast(Any & operand)
+{
+    typedef typename std::remove_reference<T>::type nonref;
+    
+    nonref * result = any_cast<nonref>(libspiral::addressOf(operand));
+    if(!result)
         throw std::bad_cast();
-    }
+    
     return static_cast<conditional_t<alias<T>::is_reference_v, T, T&>>(*result);
 }
 
 template<class T>
-T any_cast(const Any& operand) SPIRAL_NOEXCEPT {
-    return any_cast<const remove_reference_t<T>&>(const_cast<remove_reference_t<T>&>(operand));
+inline T any_cast(const Any & operand) SPIRAL_NOEXCEPT
+{
+    typedef typename std::remove_reference<T>::type nonref;
+    return any_cast<const nonref &>(const_cast<Any &>(operand));
 }
 
 template<class T>
