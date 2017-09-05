@@ -3,44 +3,36 @@ SpiralLibrary
 
 C++ header only library for modern game programming
 
-##description
+## description
 
-このライブラリはスマートフォンゲーム向けC++ライブラリです。
+This library is a library for using C++14, C++17 functions also in C++11.
 
-Android NDKはgcc 4.9にしか対応していません。
-そのためAndroid向けアプリではc++14, c++17への対応が難しいですが、スマートフォンの開発においてAndroidというプラットフォームは無視できません。
+ex)
 
-このライブラリは、C++14, C++17の機能をC++11でも利用するためのライブラリです。
+constexpr containers
 
-例)
+optional
 
-constexpr対応互換コンテナ
+index sequecne
 
-optional型
+type_traits aliases
 
-コンパイル時整数シーケンス
+meta programming helper
 
-type_traitsエイリアス
+concept
 
-メタプログラミングヘルパ
+etc.
 
-Concept
+In addition, it has a helper that supports game programming, design pattern, container, algorithm, etc.
+Accelerate game development under C++ environment.
 
-等...
-
-
-また、ゲームプログラミングをサポートするヘルパ、デザインパターン、コンテナ、アルゴリズム等を備えており
-C++環境下でのゲーム開発を加速させます。
-
-##Requirement
+## Requirement
 
 C++11
 
 clang-3.2 or GCC-4.9
 
 
-##Attention
+## Attention
 
-開発中です。
-
-under the development
+Under the development
