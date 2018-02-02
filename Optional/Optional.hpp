@@ -139,11 +139,11 @@ namespace detail {
         }
         
         value_type& get() {
-            return const_cast<value_type&>(*_value_ptr);
+			return *_value_ptr;
         }
         
         const value_type& get() const {
-            return *_value_ptr;
+			return *_value_ptr;
         }
         
     private:
@@ -286,10 +286,20 @@ public:
         return const_cast<value_type&>(*const_cast<Optional const&>(*this));
     }
     
-    value_type value() const&
+    const value_type& value() const&
     {
         return base::isInitialized() ? base::get() : throw bad_optional_access("optional bad access");
     }
+
+	value_type& value() &
+	{
+		return base::isInitialized() ? base::get() : throw bad_optional_access("optional bad access");
+	}
+
+	value_type&& value() &&
+	{
+		return base::isInitialized() ? base::get() : throw bad_optional_access("optional bad access");
+	}
     
     template <class V>
     value_type value_or(V&& v) const&
