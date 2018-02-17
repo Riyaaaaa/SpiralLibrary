@@ -285,6 +285,10 @@ public:
     value_type& operator*() {
         return const_cast<value_type&>(*const_cast<Optional const&>(*this));
     }
+
+    value_type* operator&() {
+        return this->getPtr();
+    }
     
     value_type value() const&
     {
