@@ -20,13 +20,13 @@
 #define SPIRAL_NOEXCEPT noexcept
 #define SPIRAL_NOEXCEPT_IF(exp) noexcept(exp)
 
-#if __cplusplus >= 201402L
+#if __cplusplus >= 201402L || _MSC_VER >= 1910
 #define SPIRAL_CXX_14
 #define SPIRAL_CXX14_CONSTEXPR constexpr
 #define SPIRAL_CONSTEXPR constexpr
 #define SPIRAL_STATIC_CONSTEXPR static constexpr
 
-#elif __cplusplus >= 201103L
+#elif __cplusplus >= 201103L || _MSC_VER >= 1900
 #define SPIRAL_CXX_11
 #define SPIRAL_CXX14_CONSTEXPR
 #define SPIRAL_CONSTEXPR constexpr

@@ -22,7 +22,7 @@ SPIRAL_CONSTEXPR int sign(T value) {
     return (value > 0) - (value < 0);
 }
 
-#if __cplusplus >= 201402L
+#if __cplusplus >= 201402L || _MSC_VER >= 1910
 
 template < typename T >
 SPIRAL_CONSTEXPR T sqrt( T s )
@@ -61,7 +61,7 @@ SPIRAL_CONSTEXPR int pow<int>(int s, int e)
     return ret;
 }
 
-#elif __cplusplus > 199711L
+#elif __cplusplus > 199711L || _MSC_VER >= 1900
 
 namespace detail {
 
