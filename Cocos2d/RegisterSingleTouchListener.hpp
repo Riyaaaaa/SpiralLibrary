@@ -44,7 +44,7 @@ struct hasCancelledTest {
 template<class T>
 struct RegisterSingleTouchListener {
     
-    static cocos2d::EventListenerTouchOneByOne* registerLitener(T* target) {
+    static cocos2d::EventListenerTouchOneByOne* registerListener(T* target) {
         auto listener = cocos2d::EventListenerTouchOneByOne::create();
         listener->onTouchBegan = CC_CALLBACK_2(T::onTouchBegan, target);
         registerMoved(listener, target);
