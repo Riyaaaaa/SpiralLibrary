@@ -44,13 +44,15 @@ struct hasCancelledTest {
 template<class T>
 struct RegisterSingleTouchListener {
     
-    static void registerLitener(T* target) {
+    static cocos2d::EventListenerTouchOneByOne* registerLitener(T* target) {
         auto listener = cocos2d::EventListenerTouchOneByOne::create();
         listener->onTouchBegan = CC_CALLBACK_2(T::onTouchBegan, target);
         registerMoved(listener, target);
         registerEnded(listener, target);
         registerCancelled(listener, target);
         target->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, target);
+        
+        return listener;
     }
     
     template<class U = T, typename = typename std::enable_if<Identity_t<decltype(detail::hasMovedTest<U>::test(0))>::value >::type>
